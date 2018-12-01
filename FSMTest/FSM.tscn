@@ -1,0 +1,74 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://addons/net.kivano.fsm/content/fsm.gd" type="Script" id=1]
+[ext_resource path="res://addons/net.kivano.fsm/assets/ico3d.png" type="Texture" id=2]
+[ext_resource path="res://FSM/states/Idle/Idle.tscn" type="PackedScene" id=3]
+[ext_resource path="res://FSM/states/Idle/Idle.gd" type="Script" id=4]
+[ext_resource path="res://FSM/states/Walk/Walk.tscn" type="PackedScene" id=5]
+[ext_resource path="res://FSM/states/Walk/Walk.gd" type="Script" id=6]
+[ext_resource path="res://FSM/transitions/onWalkingStart/onWalkingStart.tscn" type="PackedScene" id=7]
+[ext_resource path="res://FSM/transitions/onWalkingStart/onWalkingStart.gd" type="Script" id=8]
+[ext_resource path="res://FSM/transitions/onWalkingStop/onWalkingStop.tscn" type="PackedScene" id=9]
+[ext_resource path="res://FSM/transitions/onWalkingStop/onWalkingStop.gd" type="Script" id=10]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="FSM3D" type="Spatial" parent="." index="0"]
+
+script = ExtResource( 1 )
+_sections_unfolded = [ "Create new:" ]
+__meta__ = {
+"_editor_icon": ExtResource( 2 )
+}
+path2LogicRoot = NodePath("..")
+onlyActiveStateOnTheScene = false
+initManually = true
+updateMode = 0
+receiceSignalsOnly4ActiveStatesAndTransitions = true
+enableDebug = false
+"Initial state:" = ""
+"Create new:/Subdirectory for FSM nodes:" = "FSM"
+"Create new:/Create state with name:" = null
+"Create new:/Create transition with name:" = null
+GraphData = {
+"Idle": Vector2( 823, 506 ),
+"Idle_": Vector2( 841, 486 ),
+"Idle__": Vector2( 841, 486 ),
+"Walk": Vector2( 335, 488 ),
+"Walk_": Vector2( 335, 488 ),
+"Walk__": Vector2( 344, 482 ),
+"onWalkingStart": Vector2( 577, 369 ),
+"onWalkingStart_": Vector2( 577, 369 ),
+"onWalkingStart__": Vector2( 562, 301 ),
+"onWalkingStop": Vector2( 596, 604 ),
+"onWalkingStop_": Vector2( 596, 604 ),
+"onWalkingStop__": Vector2( 586, 613 )
+}
+
+[node name="States" type="Spatial" parent="FSM3D" index="0"]
+
+[node name="Idle" type="Node" parent="FSM3D/States" index="0" instance=ExtResource( 3 )]
+
+script = ExtResource( 4 )
+
+[node name="Walk" type="Node" parent="FSM3D/States" index="1" instance=ExtResource( 5 )]
+
+script = ExtResource( 6 )
+
+[node name="Transitions" type="Spatial" parent="FSM3D" index="1"]
+
+[node name="onWalkingStart" type="Node" parent="FSM3D/Transitions" index="0" instance=ExtResource( 7 )]
+
+script = ExtResource( 8 )
+path2SourceStates = [ NodePath(""), NodePath("../../States/Idle") ]
+path2TargetState = NodePath("../../States/Walk")
+intervalBetweenChecks = -1.0
+
+[node name="onWalkingStop" type="Node" parent="FSM3D/Transitions" index="1" instance=ExtResource( 9 )]
+
+script = ExtResource( 10 )
+path2SourceStates = [ NodePath(""), NodePath("../../States/Walk") ]
+path2TargetState = NodePath("../../States/Idle")
+intervalBetweenChecks = -1.0
+
+
